@@ -501,12 +501,32 @@ function buyButtonHtml($displayDevice, $buyBtnText, $affliateUrl){
 	//error_log('banner Affliate URL: '.$affliateUrl);
 	$output = '';
 	if(!(!isset($buyBtnText) || trim($buyBtnText)==='')){
-		$output .= '<div class="product-pricebox'.$displayDevice.'" style="">';
+		$button = explode(",",$buyBtnText);
+		//error_log('button: '.$button[0]);
+		if(count($button) > 1){
+			//error_log('button Compress %: '.$button[1]);
+			$buttonCompression = '';
+			$buttonCompression = rtrim(ltrim($button[1]));
+			$output .= '<div class="product-pricebox'.$displayDevice.'" style="margin-left:'.$buttonCompression.'%; margin-right:'.$buttonCompression.'%">';
+			$output .= '<a href="'.$affliateUrl.'" rel="nofollow" target="_blank" style="color:white">';
+			$output .= $button[0];	
+			$output .= '</a>';
+			$output .= '</div>';
+		}else{
+			$output .= '<div class="product-pricebox'.$displayDevice.'" style="margin-left: 5%; margin-right: 5%">';
+			$output .= '<a href="'.$affliateUrl.'" rel="nofollow" target="_blank">';
+			$output .= $buyBtnText;	
+			$output .= '</a>';
+			$output .= '</div>';
+		}
+	}
+	/*
+		$output .= '<div class="product-pricebox'.$displayDevice.'" style="margin-left: 5%; margin-right: 5%">';
 		$output .= '<a href="'.$affliateUrl.'" rel="nofollow" target="_blank">';
 		$output .= $buyBtnText;	
 		$output .= '</a>';
 		$output .= '</div>';
-	}
+		*/
 	return $output;
 }
 
@@ -514,9 +534,12 @@ function productDisclaimerHtml($displayDevice, $publishPrice ){
 	//error_log('banner product disclaimer: '.$publishPrice);
 	$output = '';
 	if(!(!isset($publishPrice) || trim($publishPrice)==='')){
-		$output .= '<div class="product-disclaimer'.$displayDevice.'">';
-		$output .= '<p class="product-publish-price">*At the time of publishing, the price was Rs '.$publishPrice.'.</p>';
-		$output .= '</div>';
+		$price = (int)$publishPrice;
+		if($price > 0){
+			$output .= '<div class="product-disclaimer'.$displayDevice.'">';
+			$output .= '<p class="product-publish-price">*At the time of publishing, the price was Rs '.$publishPrice.'.</p>';
+			$output .= '</div>';	
+		}
 	}
 	return $output;
 }

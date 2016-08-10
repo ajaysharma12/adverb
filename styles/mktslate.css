@@ -247,7 +247,7 @@ isindex {
 .product-title,
 .product-title a {
     font-family: "futura-pt", "helvetica neue", helvetica, arial, sans-serif;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     border-radius: 7px;
     line-height: 22px;
@@ -329,7 +329,7 @@ isindex {
 .product-make-model,
 .product-make-model a {
     margin-bottom: 5px;
-    color: #dc3325 !important;
+    color: #3498db !important;
     text-decoration: none
 }
 
@@ -346,10 +346,10 @@ isindex {
     font-size: 17px;
     font-weight: 600;
     line-height: 119%;
-    color: #000000;
-    background-color: #dc3425;
+    color: #ffffff;
+    background-color: #dc3325;
     text-align: center;
-    border-radius: 15px;
+    border-radius: 5px;
     -webkit-box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.4);
     -moz-box-shadow: 2px 4px 2px -2px rgba(0, 0, 0, 0.4);
     box-shadow: 2px 4px 2px -2px rgba(0, 0, 0, 0.4);
@@ -358,28 +358,29 @@ isindex {
 
 .product-pricebox:hover,
 .product-pricebox:focus {
-	color: #dc3425;
-	background-color: #fff;
+	color: #ffffff;
+	background-color: #f71905;
 }
 
+/*
 div.product-pricebox a:hover,
 div.product-pricebox a:focus {
     color: #dc3425;
 	background-color: #ffffff;
     text-decoration: none
-}
+}*/
 
 div.product-pricebox a,
 div.product-left a,
 a.product-make-model.product-name  {
 	border-bottom: 0px solid #333;
-	color: #e3d3d3;
+	color: #ffffff;
 	text-decoration: none;
 }
 
 a.product-title.product-name{
 	border-bottom: 0px solid #333;
-	color: #3498db;
+	color: #dc3325;
 	text-decoration: none;
 }
 
@@ -604,7 +605,7 @@ a.product-title.product-name{
     color: #000000;
     background-color: #dc3425;
     text-align: center;
-    border-radius: 5px;
+    border-radius: 4px;
     -webkit-box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.4);
     -moz-box-shadow: 2px 4px 2px -2px rgba(0, 0, 0, 0.4);
     box-shadow: 2px 4px 2px -2px rgba(0, 0, 0, 0.4);

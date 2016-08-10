@@ -17,7 +17,7 @@ Usage: Enter Attributes as follows
 adid                			[Unique Number for Adverb]
 asin                			[Amazon Identification number]
 ribbonText          			[Ribbon Text]
-buybtnText						[Buy Button Text]
+buybtnText						[Buy Button Text, Button Compression % Number]
 publishPrice        			[Price of product when the article was published]
 picUrl              			[URL of the picture]
 affliateUrl         			[Affliate URL]
