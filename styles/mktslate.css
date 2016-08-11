@@ -258,13 +258,6 @@ isindex {
 }
 
 
-.product-title:hover,
-.product-title:focus {
-	color: #dc3425;
-	background-color: #eff1dc;
-}
-
-
 
 .product-make-model,
 .product-make-model a {
@@ -362,19 +355,15 @@ isindex {
 	background-color: #f71905;
 }
 
-/*
-div.product-pricebox a:hover,
-div.product-pricebox a:focus {
-    color: #dc3425;
-	background-color: #ffffff;
-    text-decoration: none
-}*/
-
 div.product-pricebox a,
-div.product-left a,
+div.product-left a{
+	border-bottom: 0px solid #333;
+	color: #ffffff !important;
+	text-decoration: none;
+}
+
 a.product-make-model.product-name  {
 	border-bottom: 0px solid #333;
-	color: #ffffff;
 	text-decoration: none;
 }
 
@@ -516,12 +505,6 @@ a.product-title.product-name{
 }
 
 
-.product-title-m:hover,
-.product-title-m:focus {
-	color: #dc3425;
-	background-color: #eff1dc;
-}
-
 .product-make-model-m,
 .product-make-model-m a {
     font-family: "futura-pt", "helvetica neue", helvetica, arial, sans-serif;
@@ -596,16 +579,16 @@ a.product-title.product-name{
 
 .product-pricebox-m {
     display: inline-block;
-	margin: 10% 12% 3% 12%;
-    padding: 1px 1px;
+    margin: 10% 12% 3% 12%;
+    padding: 1% 1%;
     font-family: "futura-pt", "helvetica neue", helvetica, arial, sans-serif;
     font-size: 17px;
     font-weight: 600;
-    line-height: 20px;
-    color: #000000;
-    background-color: #dc3425;
+    line-height: 119%;
+    color: #ffffff;
+    background-color: #dc3325;
     text-align: center;
-    border-radius: 4px;
+    border-radius: 5px;
     -webkit-box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.4);
     -moz-box-shadow: 2px 4px 2px -2px rgba(0, 0, 0, 0.4);
     box-shadow: 2px 4px 2px -2px rgba(0, 0, 0, 0.4);
@@ -614,22 +597,28 @@ a.product-title.product-name{
 
 .product-pricebox-m:hover,
 .product-pricebox-m:focus {
-	color: #dc3425;
-	background-color: #fff;
+	color: #ffffff;
+	background-color: #f71905;
 }
 
+/*
 div.product-pricebox-m a:hover,
 div.product-pricebox-m a:focus {
     color: #dc3425;
 	background-color: #ffffff;
     text-decoration: none
 }
+*/
 
 div.product-pricebox-m a,
-div.product-left-m a,
-a.product-make-model-m.product-name-m  {
+div.product-left-m a {
 	border-bottom: 0px solid #333;
 	color: #e3d3d3;
+	text-decoration: none;
+}
+
+a.product-make-model-m.product-name-m  {
+	border-bottom: 0px solid #333;
 	text-decoration: none;
 }
 
