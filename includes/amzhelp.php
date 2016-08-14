@@ -94,18 +94,37 @@ function queryAmazon(){
 
 	if(!(!isset($_REQUEST['layout']) || trim($_REQUEST['layout'])==='')){
 		$layout = $_REQUEST['layout'];
+		error_log('laoyout printing '.$layout);
 		switch ($layout) {
 			case "imageBuyBtnDisclaimerLeftLayout":
-				echo imageBuyBtnDisclaimerLeftLayout($adverbAttributes);
+				if($mobileFlag === 'yes'){
+					echo mobileBtnBottomLayout($adverbAttributes);
+				}else{
+					echo imageBuyBtnDisclaimerLeftLayout($adverbAttributes);
+				}
 				break;
 			case "imageDisclaimerLeftLayout":
-				echo imageDisclaimerLeftLayout($adverbAttributes);
+				if($mobileFlag === 'yes'){
+					echo mobileBtnBottomLayout($adverbAttributes);
+				}else{
+					echo imageDisclaimerLeftLayout($adverbAttributes);
+				}
+				//echo imageDisclaimerLeftLayout($adverbAttributes);
 				break;
 			case "imageLeftLayout":
-				echo imageLeftLayout($adverbAttributes);
+				if($mobileFlag === 'yes'){
+					echo mobileBtnBottomLayout($adverbAttributes);
+				}else{
+					echo imageLeftLayout($adverbAttributes);
+				}
+				//echo imageLeftLayout($adverbAttributes);
 				break;
 			default:
-				echo imageBuyBtnDisclaimerLeftLayout($adverbAttributes);
+				if($mobileFlag === 'yes'){
+					echo mobileBtnBottomLayout($adverbAttributes);
+				}else{
+					echo imageBuyBtnDisclaimerLeftLayout($adverbAttributes);
+				}
 		}
 	}
 
@@ -251,7 +270,11 @@ function imageBuyBtnDisclaimerLeftLayout($adverbAtts){
 	$productThumbnailDiv = productThumbnail($displayDevice, $affliateUrl, $picUrl);
 	$buyBtnDiv = buyButtonHtml($displayDevice, $buyBtnText, $affliateUrl);
     $prodDisclaimerDiv = productDisclaimerHtml($displayDevice, $publishPrice);
-	$buyProductDiv = buyProductHtml($displayDevice, $buyBtnDiv.$prodDisclaimerDiv);
+	if($displayDevice === "-m"){
+		$buyProductDiv = buyProductHtml($displayDevice, '');
+	}else{
+		$buyProductDiv = buyProductHtml($displayDevice, $buyBtnDiv.$prodDisclaimerDiv);	
+	}
 	$leftDiv .= productLeftHtml($displayDevice, $productThumbnailDiv.$buyProductDiv, $bannerLeftWidthPercent);
 	
 	// Building Right
@@ -262,7 +285,12 @@ function imageBuyBtnDisclaimerLeftLayout($adverbAtts){
 	$rightDiv = productRightHtml($displayDevice, $productTitleDiv.$productNameDiv.$productShortDescDiv, $bannerRightWidthPercent );
 	
 	// Building Product Inner Div
-	$prodInnerDiv = productInnerHtml($displayDevice, $ribbonDiv.$leftDiv.$rightDiv);
+	if($displayDevice === "-m"){
+		$prodInnerDiv = productInnerHtml($displayDevice, $ribbonDiv.$leftDiv.$rightDiv.$buyBtnDiv.$prodDisclaimerDiv);
+	}else{
+		$prodInnerDiv = productInnerHtml($displayDevice, $ribbonDiv.$leftDiv.$rightDiv);
+	}
+	
 	
 	// Building Product Div
 	$output .= productHtml($displayDevice, $prodInnerDiv, $bannerWidthPercent, $bannerFloat);
@@ -314,7 +342,11 @@ function imageDisclaimerLeftLayout($adverbAtts){
 	
     $prodDisclaimerDiv = productDisclaimerHtml($displayDevice, $publishPrice);
 
-	$leftDiv .= productLeftHtml($displayDevice, $productThumbnailDiv.$prodDisclaimerDiv, $bannerLeftWidthPercent);
+	if($displayDevice === "-m"){
+		$leftDiv .= productLeftHtml($displayDevice, $productThumbnailDiv, $bannerLeftWidthPercent);
+	}else{
+		$leftDiv .= productLeftHtml($displayDevice, $productThumbnailDiv.$prodDisclaimerDiv, $bannerLeftWidthPercent);
+	}
 	
 	// Building Right
 	$rightDiv = '';
@@ -397,15 +429,84 @@ function imageLeftLayout($adverbAtts){
 }
 
 
+/* Mobile Layout Design
+product
+ product-inner
+  product-ribbon
+  product-strip
+   product-title  
+  product-left
+   product-thumbnail
+  product-right
+   product-name
+   product-desc
+  product-strip
+   buy-product
+    product-pricebox(buy-button)
+    product-disclaimer
+     product-publish-price  
+*/
+function mobileBtnBottomLayout($adverbAtts){
+	$displayDevice = $adverbAtts['displayDevice'];
+	$ribbonText = $adverbAtts['ribbonText'];
+	$affliateUrl = $adverbAtts['affliateUrl'];
+	$picUrl = $adverbAtts['picUrl'];
+	$buyBtnText = $adverbAtts['buyBtnText'];
+	$publishPrice = $adverbAtts['publishPrice'];
+	$productTitle = $adverbAtts['productTitle'];
+	$productName = $adverbAtts['productName'];
+	$shortDesc = $adverbAtts['shortDesc'];
+	$layout = $adverbAtts['layout'];
+	$bannerWidthPercent = $adverbAtts['bannerWidthPercent'];
+	$bannerFloat = $adverbAtts['bannerFloat'];
+	$bannerRightWidthPercent = $adverbAtts['bannerRightWidthPercent'];
+	$bannerLeftWidthPercent = $adverbAtts['bannerLeftWidthPercent'];
+	
+	$output = '';
+	// Building Ribbon
+	$ribbonDiv = '';
+	$ribbonDiv = productRibbonHtml($displayDevice, $ribbonText);
+
+	// Building Top Strip
+	$productTitleDiv = productTitleHtml($displayDevice, $affliateUrl, $productTitle );
+	$topStripDiv = productStripHtml($displayDevice, $productTitleDiv);
+	
+    // Building Left
+    $leftDiv = '';
+	$productThumbnailDiv = productThumbnail($displayDevice, $affliateUrl, $picUrl);
+	$leftDiv .= productLeftHtml($displayDevice, $productThumbnailDiv, $bannerLeftWidthPercent);
+	
+	// Building Right
+	$rightDiv = '';
+	$productNameDiv = productNameHtml($displayDevice, $affliateUrl, $productName);
+	$productShortDescDiv = productShortdescHtml($displayDevice, $shortDesc);
+	$rightDiv = productRightHtml($displayDevice, $productNameDiv.$productShortDescDiv, $bannerRightWidthPercent );
+	
+	// Building bottom strip
+	$buyBtnDiv = buyButtonHtml($displayDevice, $buyBtnText, $affliateUrl);
+    $prodDisclaimerDiv = productDisclaimerHtml($displayDevice, $publishPrice);
+	$buyProductDiv = buyProductHtml($displayDevice, $buyBtnDiv.$prodDisclaimerDiv);
+	$bottomStripDiv = productStripHtml($displayDevice, $buyProductDiv);
+	
+	// Building Product Inner Div
+	$prodInnerDiv = productInnerHtml($displayDevice, $ribbonDiv.$topStripDiv.$leftDiv.$rightDiv.$bottomStripDiv);
+	
+	// Building Product Div
+	$output .= productHtml($displayDevice, $prodInnerDiv, $bannerWidthPercent, $bannerFloat);
+	
+   return $output;
+}
+
+
 
 /* Building Blocks */
 function productHtml($displayDevice, $productInnerHTML, $bannerWidthPercent, $bannerFloat){
 	//error_log('Product Banner Width: '.$bannerWidthPercent);
 	//error_log('Product Banner Float: '.$bannerFloat);
+	$productStyle = '';
+	$bannerWidthCss = '';
+	$bannerFloatCss = '';
 	if($displayDevice===''){
-		$productStyle = '';
-		$bannerWidthCss = '';
-		$bannerFloatCss = '';
 		if(!(!isset($bannerWidthPercent) || trim($bannerWidthPercent)==='')){
 			$bannerWidthCss .= 'width:'.$bannerWidthPercent.'%';
 		}
@@ -435,6 +536,14 @@ function productInnerHtml($displayDevice, $ribbonLeftRightHTML){
 	return $output;
 }
 
+function productStripHtml($displayDevice, $bottomHTML){
+	$output = '';
+	$output .= '<div class="product-strip'.$displayDevice.'">';
+	$output .= $bottomHTML;
+	$output .= '</div>';
+	return $output;
+}
+
 function productRibbonHtml($displayDevice, $ribbonText){
 	//error_log('banner ribbon Text: '.$ribbonText);
 	$output = '';
@@ -445,9 +554,10 @@ function productRibbonHtml($displayDevice, $ribbonText){
 }
 
 function productLeftHtml($displayDevice, $buyBtnThumbnailInnerHTML, $bannerLeftWidthPercent){
+	/*error_log('$displayDevice: '.$displayDevice);
 	if(!($displayDevice==='')){
 		$bannerLeftWidthPercent = '100';
-	}
+	}*/
 	//error_log('banner left width: '.$bannerLeftWidthPercent);
 	$output = '';
 	if(!($bannerLeftWidthPercent === '0')){
@@ -461,9 +571,9 @@ function productLeftHtml($displayDevice, $buyBtnThumbnailInnerHTML, $bannerLeftW
 }
 
 function productRightHtml($displayDevice, $titleNameDescInnerHTML, $bannerRightWidthPercent){
-	if(!($displayDevice==='')){
+	/* if(!($displayDevice==='')){
 		$bannerRightWidthPercent = '100';
-	}
+	} */
 	//error_log('banner right width: '.$bannerRightWidthPercent);
 	$output = '';
 	if(!($bannerRightWidthPercent === '0')){
