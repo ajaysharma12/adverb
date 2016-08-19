@@ -94,7 +94,7 @@ function queryAmazon(){
 
 	if(!(!isset($_REQUEST['layout']) || trim($_REQUEST['layout'])==='')){
 		$layout = $_REQUEST['layout'];
-		error_log('laoyout printing '.$layout);
+		//error_log('laoyout printing '.$layout);
 		switch ($layout) {
 			case "imageBuyBtnDisclaimerLeftLayout":
 				if($mobileFlag === 'yes'){
@@ -577,8 +577,11 @@ function productRightHtml($displayDevice, $titleNameDescInnerHTML, $bannerRightW
 	//error_log('banner right width: '.$bannerRightWidthPercent);
 	$output = '';
 	if(!($bannerRightWidthPercent === '0')){
+		$intBannerRightWidthPercent = (int)$bannerRightWidthPercent;
+		$intBannerRightWidthPercent = $intBannerRightWidthPercent - 3;
 		if(!(!isset($titleNameDescInnerHTML) || trim($titleNameDescInnerHTML)==='')){
-			$output .= '<div class="product-right'.$displayDevice.'" style="width:'.$bannerRightWidthPercent.'%">';
+			$output .= '<div class="product-right'.$displayDevice.'" style="width:'.$intBannerRightWidthPercent.'%">';
+			//$output .= '<div class="product-right'.$displayDevice.'" style="width:'.$bannerRightWidthPercent.'%">';
 			$output .= $titleNameDescInnerHTML;
 			$output .= '</div>';
 		}
@@ -588,10 +591,12 @@ function productRightHtml($displayDevice, $titleNameDescInnerHTML, $bannerRightW
 }
 
 function productThumbnail($displayDevice, $affliateUrl, $picUrl){
-	//error_log('banner picURL: '.$picUrl);
 	$output = '';
+	$imageID = get_attachment_id_from_src( $picUrl );
+	$imageHTML = wp_get_attachment_image($imageID, 'full', false, array( "itemprop" => "image" ));
+	
 	if(!(!isset($picUrl) || trim($picUrl)==='')){
-		$output .= '<a class="product-thumbnail'.$displayDevice.'" href="'.$affliateUrl.'" rel="nofollow" target="_blank"><img src="'.$picUrl.'" itemprop="image"></a>';
+		$output .= '<a class="product-thumbnail'.$displayDevice.'" href="'.$affliateUrl.'" rel="nofollow" target="_blank">'.$imageHTML.'</a>';
 	}
 	return $output;
 }
@@ -615,9 +620,17 @@ function buyButtonHtml($displayDevice, $buyBtnText, $affliateUrl){
 		//error_log('button: '.$button[0]);
 		if(count($button) > 1){
 			//error_log('button Compress %: '.$button[1]);
-			$buttonCompression = '';
-			$buttonCompression = rtrim(ltrim($button[1]));
-			$output .= '<div class="product-pricebox'.$displayDevice.'" style="margin-left:'.$buttonCompression.'%; margin-right:'.$buttonCompression.'%">';
+			$buttonLeftCompression = '';
+			$buttonLeftCompression = rtrim(ltrim($button[1]));
+			$buttonRightCompression = '';
+			$buttonRightCompression = rtrim(ltrim($button[2]));
+			if(!($displayDevice === '-m')){
+				$buttonCompression = (int)$buttonLeftCompression < (int)$buttonRightCompression ? $buttonLeftCompression : $buttonRightCompression;
+				$output .= '<div class="product-pricebox'.$displayDevice.'" style="margin-left:'.$buttonCompression.'%; margin-right:'.$buttonCompression.'%">';
+			}else{
+				$output .= '<div class="product-pricebox'.$displayDevice.'" style="margin-left:'.$buttonLeftCompression.'%; margin-right:'.$buttonRightCompression.'%">';
+			}
+			
 			$output .= '<a href="'.$affliateUrl.'" rel="nofollow" target="_blank" style="color:white">';
 			$output .= $button[0];	
 			$output .= '</a>';
@@ -684,8 +697,15 @@ function productShortdescHtml($displayDevice, $shortDesc){
 }
 /* Building Blocks */
 
-
-
+/*Utility Function*/
+function get_attachment_id_from_src ($image_src) {
+	error_log('in here 1 get_attachment_id_from_src');
+	global $wpdb;
+	$query = "SELECT ID FROM {$wpdb->posts} WHERE guid='$image_src'";
+	$id = $wpdb->get_var($query);
+	return $id;
+}
+/*Utility Function*/
 
 /***
 
