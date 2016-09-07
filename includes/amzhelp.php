@@ -612,24 +612,24 @@ function buyProductHtml($displayDevice, $buyButtonDisclaimerInnerHTML){ /* Buy B
 }
 
 function buyButtonHtml($displayDevice, $buyBtnText, $affliateUrl){
-	//error_log('banner buy button text: '.$buyBtnText);
-	//error_log('banner Affliate URL: '.$affliateUrl);
 	$output = '';
 	if(!(!isset($buyBtnText) || trim($buyBtnText)==='')){
 		$button = explode(",",$buyBtnText);
-		//error_log('button: '.$button[0]);
 		if(count($button) > 1){
-			//error_log('button Compress %: '.$button[1]);
 			$buttonLeftCompression = '';
 			$buttonLeftCompression = rtrim(ltrim($button[1]));
 			$buttonRightCompression = '';
 			$buttonRightCompression = rtrim(ltrim($button[2]));
-			if(!($displayDevice === '-m')){
-				$buttonCompression = (int)$buttonLeftCompression < (int)$buttonRightCompression ? $buttonLeftCompression : $buttonRightCompression;
-				$output .= '<div class="product-pricebox'.$displayDevice.'" style="margin-left:'.$buttonCompression.'%; margin-right:'.$buttonCompression.'%">';
-			}else{
-				$output .= '<div class="product-pricebox'.$displayDevice.'" style="margin-left:'.$buttonLeftCompression.'%; margin-right:'.$buttonRightCompression.'%">';
-			}
+			//if(!($displayDevice === '-m')){
+			//	$buttonCompression = (int)$buttonLeftCompression < (int)$buttonRightCompression ? $buttonLeftCompression : $buttonRightCompression;
+			//	$output .= '<div class="product-pricebox'.$displayDevice.'" style="margin-left:'.$buttonCompression.'%; margin-right:'.$buttonCompression.'%">';
+			//}else{
+			//	$output .= '<div class="product-pricebox'.$displayDevice.'" style="margin-left:'.$buttonLeftCompression.'%; margin-right:'.$buttonRightCompression.'%">';
+			//}
+			
+			$buttonCompression = (int)$buttonLeftCompression < (int)$buttonRightCompression ? $buttonLeftCompression : $buttonRightCompression;
+			//error_log(' button Compression: '.$buttonCompression);
+			$output .= '<div class="product-pricebox'.$displayDevice.'" style="margin-left:'.$buttonCompression.'%; margin-right:'.$buttonCompression.'%">';
 			
 			$output .= '<a href="'.$affliateUrl.'" rel="nofollow" target="_blank" style="color:white">';
 			$output .= $button[0];	

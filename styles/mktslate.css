@@ -183,8 +183,8 @@ isindex {
     top: 15px;
     left: 0;
     height: 37px;
-    margin-left: -10px;
-    padding-left: 20px;
+    margin-left: -2px;
+    padding-left: 1px;
     background: url(../img/ribbon2.png) no-repeat;
     line-height: 30px;
     text-align: left;
@@ -422,7 +422,6 @@ a.product-title.product-name{
 }
 
 .product-align-right-m {
-    float: right;
     margin-left: 2px
 }
 
